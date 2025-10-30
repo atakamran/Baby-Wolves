@@ -4,32 +4,31 @@ import CoverVideo from '../CoverVideo'
 import TypeWriterText from '../TypeWriterText'
 
 const Section = styled.section`
-  min-height: ${props => `calc(100vh - ${props.theme.navHeight})`}
+  min-height: ${props => `calc(100vh - ${props.theme.navHeight})`};
   width: 100%;
   position: relative;
-  background-color: ${props => props.theme.body};
+  background-color: #f0f2f5;
 `
 
 const Container = styled.div`
-  width: 75%;
+  width: 85%;
   min-height: 80vh;
   margin: 0 auto;
-
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
   @media (max-width: 64em) {
-    width: 85%;
+    width: 90%;
   }
   @media (max-width: 48em) {
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 100%;
 
-    &>*:first-child{
+    & > *:first-child {
       width: 100%;
       margin-top: 2rem;
-    }    
+    }
     img {
       border-radius: 25px;
       padding: 10%;
@@ -51,10 +50,10 @@ const Home = () => {
     <Section id="home">
       <Container>
         <Box>
-          <CoverVideo/>
+          <TypeWriterText />
         </Box>
         <Box>
-          <TypeWriterText/>
+          <CoverVideo />
         </Box>
       </Container>
     </Section>
