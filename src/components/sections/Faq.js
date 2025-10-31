@@ -5,13 +5,17 @@ import Accordian from '../Accordian';
 const Section = styled.section`
   min-height: 100vh;
   width: 100%;
-  background-color: #f9f9f9;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   position: relative;
-  padding: 5rem 0;
+  padding: 6rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
+  @media (max-width: 48em) {
+    padding: 4rem 0;
+  }
 `;
 
 const Title = styled.h1`
@@ -25,24 +29,36 @@ const Title = styled.h1`
 `;
 
 const Container = styled.div`
-  width: 75%;
+  width: 90%;
+  max-width: 1400px;
   margin: 2rem auto;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 3rem;
 
   @media (max-width: 64em) {
-    width: 80%;
+    width: 95%;
     flex-direction: column;
     align-items: center;
+    gap: 2rem;
+    padding: 0 2rem;
+  }
+  
+  @media (max-width: 48em) {
+    width: 100%;
+    padding: 0 1rem;
+    gap: 1.5rem;
   }
 `;
 
 const Box = styled.div`
   width: 45%;
+  flex: 1;
 
   @media (max-width: 64em) {
-    width: 90%;
+    width: 100%;
+    max-width: 700px;
   }
 
   a {

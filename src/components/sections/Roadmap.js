@@ -7,9 +7,13 @@ import DrawSvg from '../DrawSvg';
 const Section = styled.section`
   min-height: 100vh;
   width: 100%;
-  background-color: ${(props) => props.theme.body};
+  background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
   position: relative;
-  padding: 2rem 0;
+  padding: 6rem 0;
+  
+  @media (max-width: 48em) {
+    padding: 4rem 0;
+  }
 `;
 
 const Title = styled.h1`
@@ -26,16 +30,25 @@ const Title = styled.h1`
 `;
 
 const Container = styled.div`
-  width: 80%;
-  height: 200vh;
+  width: 90%;
+  max-width: 1200px;
+  min-height: 200vh;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  padding: 2rem 0;
 
   @media (max-width: 64rem) {
-    width: 90%;
+    width: 95%;
+    min-height: 150vh;
+  }
+  
+  @media (max-width: 48em) {
+    width: 100%;
+    padding: 2rem 1rem;
+    min-height: auto;
   }
 `;
 

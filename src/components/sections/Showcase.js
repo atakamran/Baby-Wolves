@@ -5,13 +5,17 @@ import ImageComponent from '../media/ImageComponent';
 const Section = styled.section`
   min-height: 100vh;
   width: 100%;
-  background-color: #f9f9f9;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 5rem 0;
+  padding: 6rem 0;
+  
+  @media (max-width: 48em) {
+    padding: 4rem 0;
+  }
 `;
 
 const Title = styled.h1`
@@ -29,28 +33,72 @@ const Title = styled.h1`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  width: 85%;
+  width: 90%;
+  max-width: 1400px;
   margin: 3rem auto;
+  padding: 0 2rem;
+  
+  @media (max-width: 64em) {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    width: 95%;
+  }
+  
+  @media (max-width: 48em) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 30em) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const ImgContainer = styled.div`
   background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(142, 68, 173, 0.1) 0%, rgba(52, 152, 219, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
 
   &:hover {
-    transform: translateY(-10px);
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 20px 50px rgba(142, 68, 173, 0.25);
+    
+    &::before {
+      opacity: 1;
+    }
+    
+    img {
+      transform: scale(1.1);
+    }
   }
 
   img {
     width: 100%;
     height: auto;
-    border-radius: 15px;
+    border-radius: 20px;
+    display: block;
+    transition: transform 0.4s ease;
   }
 `;
 

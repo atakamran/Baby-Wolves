@@ -25,11 +25,11 @@
  * npm start
  */
 
- import { useEffect, useState } from 'react';
- import MetaMaskOnboarding from '@metamask/onboarding'
- import './button.css'
- 
- function WalletConnectButton() {
+import { useEffect, useState } from 'react';
+import MetaMaskOnboarding from '@metamask/onboarding';
+import './button.css';
+
+const WalletConnectButton = () => {
      
      const [btnText, setBtnText] = useState("");
      const [isDisabled, setDisabled] = useState(false)
@@ -40,29 +40,33 @@
      // Could also be done with a simple link
      const onboarding = new MetaMaskOnboarding(); // defaults to "https://fwd.metamask.io"
      
-     // Do this in order to shorten window.ethereum to simply ethereum later in the code
-     const { ethereum } = window;
+    // Do this in order to shorten window.ethereum to simply ethereum later in the code
+    const ethereum = typeof window !== 'undefined' ? window.ethereum : null;
  
-     useEffect( async () => {
-         // Check whether MetaMask is installed
-         MetaMaskClientCheck();
-         
-         if (isMetaMaskInstalled()) {
-           // Get current wallet connected (useful after refresh of page and used to display in the button that you are already connected)
-           const { address } = await getCurrentWalletConnected(); 
-           setWallet(address);
+    useEffect(() => {
+        // Check whether MetaMask is installed
+        MetaMaskClientCheck();
+        
+        const initializeWallet = async () => {
+          if (isMetaMaskInstalled()) {
+            // Get current wallet connected (useful after refresh of page and used to display in the button that you are already connected)
+            const { address } = await getCurrentWalletConnected(); 
+            setWallet(address);
+
+            // Add wallet listener to handle account changes by the user
+            addWalletListener();
+          }
+        };
+
+        initializeWallet();
+    },[])
  
-           // Add wallet listener to handle account changes by the user
-           addWalletListener();
-         }
-     },[])
- 
-     // Check whether MetaMask Chrome extension is installed
-     const isMetaMaskInstalled = () => {
-         const isInstalled = Boolean(ethereum && ethereum.isMetaMask);
-         setMetaMaskInstalled(isInstalled);
-         return isInstalled;
-     };
+    // Check whether MetaMask Chrome extension is installed
+    const isMetaMaskInstalled = () => {
+        const isInstalled = Boolean(ethereum?.isMetaMask);
+        setMetaMaskInstalled(isInstalled);
+        return isInstalled;
+    };
  
      // Aux function for isMetaMaskInstalled function
      const MetaMaskClientCheck = () => {
@@ -189,11 +193,13 @@
          )          
      }  
  
-     return (
-         <div>
-             <button onClick={metaMaskInstalled ? onClickConnect : onClickInstall} disabled={isDisabled}>{btnText}</button>       
-         </div>
-     )
- }
- 
- export default WalletConnectButton;
+    return (
+        <div>
+            <button onClick={metaMaskInstalled ? onClickConnect : onClickInstall} disabled={isDisabled}>
+                {btnText}
+            </button>       
+        </div>
+    );
+};
+
+export default WalletConnectButton;

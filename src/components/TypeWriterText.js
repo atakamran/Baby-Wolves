@@ -85,7 +85,7 @@ const TypeWriterText = () => {
       </Title>
       <SubTitle>explore the pack</SubTitle>
       <ButtonContainer>
-        <Button text="Discord" link="https://discord.gg/DKptPuNW9H" />
+        <Button text="GitHub" link="https://github.com/atakamran" />
       </ButtonContainer>
     </>
   );
