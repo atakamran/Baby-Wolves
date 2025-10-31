@@ -1,178 +1,174 @@
-import React, {useState} from 'react'
-import styled from 'styled-components'
-import Button from './Button'
-import Logo from './Logo'
-import WalletConnectButton from './wallet/WalletConnectButton'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Logo from './Logo';
+import WalletConnectButton from './wallet/WalletConnectButton';
 
-import './wallet/NFTVerify'
+import './wallet/NFTVerify';
 
 const Section = styled.section`
-width: 100%;
-background-color: #fff;
-`
+  width: 100%;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+`;
 
 const Navbar = styled.nav`
-display: flex;
-justify-content: space-between;
-align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-width: 97%;
-height: ${props => props.theme.navHeight};
-margin: 0 auto;
+  width: 90%;
+  height: ${(props) => props.theme.navHeight};
+  margin: 0 auto;
 
-.mobile {
+  .mobile {
     display: none;
-}
+  }
 
-@media (max-width: 64em) {
+  @media (max-width: 64em) {
     .desktop {
-        display: none;
+      display: none;
     }
     .mobile {
-        display: inline-block;
+      display: inline-block;
     }
-}
-`
+  }
+`;
 
 const Menu = styled.ul`
-display: flex;
-justify-content: space-between;
-align-items: center;
-list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
 
-@media (max-width: 64rem) {
+  @media (max-width: 64rem) {
     position: fixed;
-    top: ${props => props.theme.navHeight};
+    top: ${(props) => props.theme.navHeight};
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    height: ${props => `calc(100vh - ${props.theme.navHeight})`};
+    height: ${(props) => `calc(100vh - ${props.theme.navHeight})`};
     z-index: 50;
-    background-color: rgba(255, 255, 255 ,0.85);
-    backdrop-filter: blur(2px);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
 
-    transform: ${props => props.click ? 'translateY(0)' : `translateY(1000%)`};
+    transform: ${(props) => (props.click ? 'translateY(0)' : `translateY(1000%)`)};
     transition: all 0.3s ease;
 
     flex-direction: column;
     justify-content: center;
-}
-`
+  }
+`;
 
 const MenuItem = styled.li`
-margin: 0 1rem;
-color: ${props => props.theme.text};
-cursor: pointer;
+  margin: 0 1.5rem;
+  color: ${(props) => props.theme.text};
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  position: relative;
 
-&::after{
+  &::after {
     content: ' ';
     display: block;
     width: 0%;
     height: 2px;
-    background: ${props => props.theme.text};
-    transition: width 0.8s ease;
-}
+    background: ${(props) => props.theme.primary};
+    transition: width 0.3s ease;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+  }
 
-&:hover::after{
+  &:hover::after {
     width: 100%;
-}
+  }
 
-@media (max-width: 64rem) {
-    margin: 1rem 0;
+  @media (max-width: 64rem) {
+    margin: 1.5rem 0;
 
-    &::after{
-        display: none;
+    &::after {
+      display: none;
     }
-}
-
-`
+  }
+`;
 
 const HamburgerMenu = styled.span`
-    width: ${props => props.click ? '2rem' : '1.5rem'};
-    height: 2px;
-    background: ${props => props.theme.text};
+  display: none;
 
-    position: absolute;
-    top: 2rem;
-    left: 50%;
-    transform: ${props => props.click ? 'translate(-50%) rotate(90deg)' : 'translate(-50%) rotate(0)'};
-
-    display: none;
+  @media (max-width: 64rem) {
+    display: flex;
     justify-content: center;
     align-items: center;
-
+    width: 2rem;
+    height: 2rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    position: relative;
+    z-index: 51;
 
-    @media (max-width: 64rem) {
-        display: flex;
-
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 1.5rem;
+      height: 2px;
+      background: ${(props) => props.theme.text};
+      transition: all 0.3s ease;
     }
 
-    &::after, &::before{
-        content: ' ';
-        width: ${props => props.click ? '1rem' : '1.5rem'};
-        height: 2px;
-        right: ${props => props.click ? '-2px' : '0rem'};
-        background: ${props => props.theme.text};
-        position: absolute;
-        transition: all 0.3s ease;
+    &::before {
+      transform: ${(props) => (props.click ? 'rotate(45deg)' : 'translateY(-5px)')};
     }
 
-    &::after{
-        top: ${props => props.click ? '0.3rem' : '0.5rem'};
-        transform: ${props => props.click ? 'rotate(-40deg)' : 'rotate(0)'}
+    &::after {
+      transform: ${(props) => (props.click ? 'rotate(-45deg)' : 'translateY(5px)')};
     }
-    &::before{
-        bottom: ${props => props.click ? '0.3rem' : '0.5rem'};
-        transform: ${props => props.click ? 'rotate(40deg)' : 'rotate(0)'}
-    }
-`
+  }
+`;
 
 const Navigation = () => {
-    
-    const [click, setClick] = useState(false);
+  const [click, setClick] = useState(false);
 
-    const scrollTo = (id) => {
+  const scrollTo = (id) => {
+    let element = document.getElementById(id);
 
-        let element = document.getElementById(id);
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    });
 
-        element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest'
-        })
-
-        setClick(!click);
-    }
+    setClick(false);
+  };
 
   return (
-      <Section>
-          <Navbar>
-                <Logo />
-                <HamburgerMenu click={click} onClick={() => setClick(!click)}>
-                    &nbsp;
-                </HamburgerMenu>
-                <Menu click={click}>
-                    <MenuItem onClick={() => scrollTo('home')} >Home</MenuItem>
-                    <MenuItem onClick={() => scrollTo('about')} >About</MenuItem>
-                    <MenuItem onClick={() => scrollTo('roadmap')} >RoadMap</MenuItem>
-                    <MenuItem onClick={() => scrollTo('showcase')} >Showcase</MenuItem>
-                    <MenuItem onClick={() => scrollTo('team')} >Team</MenuItem>
-                    <MenuItem onClick={() => scrollTo('faq')} >FAQ</MenuItem>
-                    <MenuItem>
-                        <div class= "mobile">
-                            <WalletConnectButton />
-                        </div>
-                    </MenuItem>
-                </Menu>
-                <div class= "desktop">
-                    <WalletConnectButton />
-                </div>
-          </Navbar>
-      </Section>
-  )
-}
+    <Section>
+      <Navbar>
+        <Logo />
+        <HamburgerMenu click={click} onClick={() => setClick(!click)} />
+        <Menu click={click}>
+          <MenuItem onClick={() => scrollTo('home')}>Home</MenuItem>
+          <MenuItem onClick={() => scrollTo('about')}>About</MenuItem>
+          <MenuItem onClick={() => scrollTo('roadmap')}>RoadMap</MenuItem>
+          <MenuItem onClick={() => scrollTo('showcase')}>Showcase</MenuItem>
+          <MenuItem onClick={() => scrollTo('team')}>Team</MenuItem>
+          <MenuItem onClick={() => scrollTo('faq')}>FAQ</MenuItem>
+          <MenuItem>
+            <div className="mobile">
+              <WalletConnectButton />
+            </div>
+          </MenuItem>
+        </Menu>
+        <div className="desktop">
+          <WalletConnectButton />
+        </div>
+      </Navbar>
+    </Section>
+  );
+};
 
-export default Navigation
+export default Navigation;
